@@ -1,7 +1,9 @@
+import 'package:bookly/core/constants.dart';
 import 'package:bookly/core/utils/assets_data.dart';
+import 'package:bookly/features/home/presentation/views/screens/home_screen.dart';
 import 'package:bookly/features/splash/presentation/views/widgets/sliding_text.dart';
-import 'package:bookly/features/splash/presentation/views/widgets/splash_body.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class SplashBody extends StatefulWidget {
   const SplashBody({super.key});
@@ -17,8 +19,24 @@ class _SplashBodyState extends State<SplashBody>
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+    initSlidingAnimation();
+    navigateToHome();
+  }
+
+  void navigateToHome() {
+    Future.delayed(const Duration(seconds: 2), () {
+      if (mounted) {
+        Get.to(
+          () => const HomeScreen(),
+          transition: Transition.fade,
+          duration: kTransitionDuration,
+        );
+      }
+    });
+  }
+
+  void initSlidingAnimation() {
     animationController = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 2),
@@ -35,7 +53,6 @@ class _SplashBodyState extends State<SplashBody>
 
   @override
   void dispose() {
-    // TODO: implement dispose
     animationController.dispose();
     super.dispose();
   }
