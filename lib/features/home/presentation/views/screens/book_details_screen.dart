@@ -7,7 +7,7 @@ class BookDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      body: BookDetailsBody(),
+      body: SafeArea(child: BookDetailsBody()),
     );
   }
 }
