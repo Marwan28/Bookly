@@ -21,7 +21,7 @@ abstract class MyStyles {
   );
   static const textStyle30 = TextStyle(
     fontSize: 30,
-    fontWeight: FontWeight.normal,
+    fontWeight: FontWeight.w900,
     // fontFamily: kGtSectraFine,
   );
 }
