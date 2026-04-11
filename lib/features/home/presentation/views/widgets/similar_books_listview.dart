@@ -15,27 +15,27 @@ class SimilarBooksListview extends StatelessWidget {
       builder: (context, state) {
         if (state is SimilarBooksSuccess) {
           return SizedBox(
-            height: MediaQuery
-                .of(context)
-                .size
-                .height * 0.15,
+            height: MediaQuery.of(context).size.height * 0.15,
             child: ListView.builder(
-              itemCount: 10,
+              itemCount: state.books.length,
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 5),
-                  child: CustomBookImage(imageUrl: '',),
+                  child: CustomBookImage(
+                    imageUrl:
+                        state.books[index].volumeInfo.imageLinks?.thumbnail ??
+                        '',
+                  ),
                 );
               },
             ),
           );
-        }else if (state is SimilarBooksError) {
+        } else if (state is SimilarBooksError) {
           return CustomErrorWidget(errMessage: state.errMessage);
-        }else {
+        } else {
           return const CustomLoadingIndicator();
         }
-
       },
     );
   }
