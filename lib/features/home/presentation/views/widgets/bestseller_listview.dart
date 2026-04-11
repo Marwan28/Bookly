@@ -1,20 +1,35 @@
+import 'package:bookly/core/widgets/custom_error_widget.dart';
+import 'package:bookly/core/widgets/custom_loading_indicator.dart';
+import 'package:bookly/features/home/presentation/view_models/newest_books_cubit/newest_books_cubit.dart';
+import 'package:bookly/features/home/presentation/view_models/newest_books_cubit/newest_books_cubit.dart';
 import 'package:bookly/features/home/presentation/views/widgets/book_listview_item.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class BestsellerListview extends StatelessWidget {
   const BestsellerListview({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      physics: const NeverScrollableScrollPhysics(),
-      padding: EdgeInsets.zero,
-      itemCount: 10,
-      itemBuilder: (context, index) {
-        return const Padding(
-          padding: EdgeInsets.symmetric(vertical: 10),
-          child: BookListviewItem(),
-        );
+    return BlocBuilder<NewestBooksCubit, NewestBooksState>(
+      builder: (context, state) {
+        if (state is NewestBooksSuccess) {
+          return ListView.builder(
+            physics: const NeverScrollableScrollPhysics(),
+            padding: EdgeInsets.zero,
+            itemCount: state.books.length,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: EdgeInsets.symmetric(vertical: 10),
+                child: BookListviewItem(bookModel: state.books[index],),
+              );
+            },
+          );
+        } else if (state is NewestBooksError) {
+          return CustomErrorWidget(errMessage: state.errMessage);
+        } else {
+          return const CustomLoadingIndicator();
+        }
       },
     );
   }

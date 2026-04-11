@@ -1,3 +1,4 @@
+import 'package:bookly/core/widgets/custom_error_widget.dart';
 import 'package:bookly/core/widgets/custom_loading_indicator.dart';
 import 'package:bookly/features/home/presentation/view_models/featured_books_cubit/featured_books_cubit.dart';
 import 'package:bookly/features/home/presentation/view_models/featured_books_cubit/featured_books_cubit.dart';
@@ -32,10 +33,7 @@ class FeaturedListView extends StatelessWidget {
             ),
           );
         } else if (state is FeaturedBooksError) {
-          return Text(
-            state.errMessage,
-            style: TextStyle(color: Colors.red, fontSize: 20),
-          );
+          return CustomErrorWidget(errMessage: state.errMessage);
         } else {
           return const CustomLoadingIndicator();
         }
