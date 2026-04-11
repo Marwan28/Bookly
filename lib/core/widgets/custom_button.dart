@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class CustomButton extends StatelessWidget {
   final String text;
-  final void Function()? onTap;
+  final void Function()? onPressed;
   final Color backgroundColor;
   final Color textColor;
   final BorderRadius? borderRadius;
@@ -12,7 +12,7 @@ class CustomButton extends StatelessWidget {
   const CustomButton({
     super.key,
     required this.text,
-    this.onTap,
+    this.onPressed,
     required this.backgroundColor,
     required this.textColor,
      this.borderRadius,
@@ -24,7 +24,7 @@ class CustomButton extends StatelessWidget {
     return SizedBox(
       height: 48,
       child: TextButton(
-        onPressed: () {},
+        onPressed: onPressed,
         style: TextButton.styleFrom(
           shape: RoundedRectangleBorder(
             borderRadius: borderRadius?? BorderRadius.circular(12),
