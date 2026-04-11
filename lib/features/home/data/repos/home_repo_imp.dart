@@ -3,6 +3,7 @@ import 'package:bookly/core/utils/api_service.dart';
 import 'package:bookly/features/home/data/model/book_model/book_model.dart';
 import 'package:bookly/features/home/data/repos/home_repo.dart';
 import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
 
 class HomeRepoImp extends HomeRepo {
   ApiService apiService;
@@ -21,7 +22,11 @@ class HomeRepoImp extends HomeRepo {
       }
       return Right(books);
     } on Exception catch (e) {
-      return Left(ServerFailure());
+      if(e is DioException){
+        return Left(ServerFailure.fromDioError(e));
+      }else{
+        return Left(ServerFailure(e.toString()));
+      }
     }
   }
 
