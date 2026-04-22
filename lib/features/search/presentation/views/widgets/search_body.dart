@@ -1,9 +1,7 @@
 import 'package:bookly/core/utils/my_styles.dart';
 import 'package:bookly/features/home/presentation/views/widgets/book_listview_item.dart';
 import 'package:bookly/features/search/presentation/views/widgets/custom_search_text_field.dart';
-import 'package:bookly/features/search/presentation/views/widgets/search_body.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class SearchBody extends StatelessWidget {
   const SearchBody({super.key});
@@ -15,11 +13,11 @@ class SearchBody extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CustomSearchTextField(),
+          const CustomSearchTextField(),
           const SizedBox(height: 16),
-          Text('Search Result',style: MyStyles.textStyle18,),
+          Text('Search Result', style: MyStyles.textStyle18),
           const SizedBox(height: 16),
-          Expanded(child: SearchResultListview()),
+          const Expanded(child: SearchResultListview()),
         ],
       ),
     );
@@ -37,7 +35,7 @@ class SearchResultListview extends StatelessWidget {
       itemBuilder: (context, index) {
         return const Padding(
           padding: EdgeInsets.symmetric(vertical: 10),
-          // child: BookListviewItem(),
+          // TODO: wire up search cubit and pass real BookEntity here
           child: Text('data'),
         );
       },
