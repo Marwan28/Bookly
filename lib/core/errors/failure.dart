@@ -2,7 +2,6 @@ import 'package:dio/dio.dart';
 
 abstract class Failure {
   final String errMessage;
-
   const Failure(this.errMessage);
 }
 
@@ -15,6 +14,8 @@ class ServerFailure extends Failure {
       case DioExceptionType.sendTimeout:
       case DioExceptionType.receiveTimeout:
         return ServerFailure('Time Out');
+      case DioExceptionType.badCertificate:
+        return ServerFailure('Certificate Error');
       case DioExceptionType.badResponse:
         return ServerFailure.fromResponse(
           dioError.response!.statusCode!,
@@ -25,24 +26,22 @@ class ServerFailure extends Failure {
       case DioExceptionType.connectionError:
         return ServerFailure('No Internet Connection');
       case DioExceptionType.unknown:
-        if (dioError.message!.contains('SocketException')) {
-          return ServerFailure('No Internet Connection');
-        }
-        return ServerFailure('Unexpected Error, Please Try Again');
-      default:
-        return ServerFailure('Oops There Was An Error, Please Try Again');
+        return ServerFailure(dioError.message ?? 'Unexpected Error');
     }
   }
 
   factory ServerFailure.fromResponse(int statusCode, dynamic response) {
     if (statusCode == 400 || statusCode == 401 || statusCode == 403) {
-      return ServerFailure(response['error']['message']);
+      return ServerFailure(
+          'Status $statusCode: ${response?['error']?['message'] ?? response.toString()}');
     } else if (statusCode == 404) {
-      return ServerFailure('Your Request Not Found, Please Try Later');
+      return ServerFailure('Not Found (404)');
     } else if (statusCode == 500) {
-      return ServerFailure('Internal Server Error, Please Try Later');
+      return ServerFailure('Server Error (500)');
     } else {
-      return ServerFailure('Oops There Was An Error, Please Try Again');
+      final str = response.toString();
+      return ServerFailure(
+          'Error $statusCode: ${str.length > 120 ? str.substring(0, 120) : str}');
     }
   }
 }
